@@ -1,0 +1,12 @@
+[project]
+name = "ttrack"
+version = "1.0.0"
+description = "A simple time tracker"
+requires-python = ">=3.13"
+
+[project.scripts]
+ttrack = "ttrack.cli:main"
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"

@@ -61,8 +61,10 @@ def main():
     summary_parser.add_argument("name", help="The name of the timer")
     summary_parser.set_defaults(func=summary)
 
-    return parser.parse_args()
+    args = parser.parse_args()
+    args.func(args)    
+
 
 if __name__ == "__main__":
-    args = main()
-    args.func(args)
+    main()
+    
