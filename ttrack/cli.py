@@ -23,8 +23,8 @@ def main():
         name = args.name
         tracker.set_database(data_dir)
         events = tracker.parse_events(name)
-        for event, time in events:
-            print(f"{event.value}\t{time}")
+        for event in events:
+            print(f"{event.event}\t{event.time}")
     
     def info(args: Namespace):
         data_dir = args.data_dir

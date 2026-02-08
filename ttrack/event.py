@@ -3,12 +3,12 @@ from datetime import datetime
 from enum import Enum
 
 
-class EventType(Enum):
+class EventName(str, Enum):
     START = "start"
     STOP = "stop"
 
 
 @dataclass
 class Event:
-    type: EventType
+    event: EventName
     time: datetime

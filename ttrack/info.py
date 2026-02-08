@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime
 from dataclasses import dataclass
 
-from ttrack.event import EventType
+from ttrack.event import EventName
 
 
 @dataclass
@@ -9,7 +9,7 @@ class TrackerInfo:
     totalDuration: timedelta
 
     @classmethod
-    def from_events(events: list[tuple[EventType, datetime]]):
+    def from_events(events: list[tuple[EventName, datetime]]):
         events_before_today = []
         events_today = []
         today = datetime.today()
