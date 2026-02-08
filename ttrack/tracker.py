@@ -5,6 +5,7 @@ from pathlib import Path
 from dataclasses import asdict
 
 from ttrack.event import Event, EventName
+from ttrack.timespan import Timespan
 
 
 logger = logging.getLogger(__name__)
@@ -49,7 +50,7 @@ class Tracker:
                 writer.writeheader()
             writer.writerow(asdict(event))
     
-    def parse_events(self, name: str) -> list[Event]:
+    def get_events(self, name: str) -> list[Event]:
         file_path = self.db_location / f"{name}.csv"
         if not file_path.exists():
             return []
@@ -58,7 +59,7 @@ class Tracker:
         with open(file_path, newline="", encoding="utf8") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                events.append(Event(**row))
+                events.append(Event.from_csv_row(row))
         return events
     
     def parse_last_event(self, name: str) -> Event | None:
@@ -94,4 +95,4 @@ class Tracker:
             fieldnames=["event", "time"],
         ))
 
-        return Event(**row)
+        return Event.from_csv_row(row)

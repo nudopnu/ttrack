@@ -1,7 +1,10 @@
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
+from datetime import timedelta
 
 from ttrack.tracker import Tracker
+from ttrack.timespan import Timespan
+
 
 def main():
     tracker = Tracker()
@@ -22,15 +25,20 @@ def main():
         data_dir = args.data_dir
         name = args.name
         tracker.set_database(data_dir)
-        events = tracker.parse_events(name)
+        events = tracker.get_events(name)
         for event in events:
             print(f"{event.event}\t{event.time}")
     
-    def info(args: Namespace):
+    def summary(args: Namespace):
         data_dir = args.data_dir
         name = args.name
         tracker.set_database(data_dir)
-        events = tracker.parse_events(name)        
+        events = tracker.get_events(name)        
+        spans = Timespan.from_events(events)
+        total_duration = sum((span.duration() for span in spans), start=timedelta(0))
+        duration_today= sum((span.duration() for span in spans if span.started_today()), start=timedelta(0))
+        print(f"Total duration:\t{total_duration}")
+        print(f"Duration today:\t{duration_today}")
 
 
     parser = ArgumentParser()
@@ -48,6 +56,10 @@ def main():
     list_parser = subparsers.add_parser("list", help="List all events of a timer")
     list_parser.add_argument("name", help="The name of the timer")
     list_parser.set_defaults(func=list)
+
+    summary_parser = subparsers.add_parser("summary", help="Prints out a summary of given timer")
+    summary_parser.add_argument("name", help="The name of the timer")
+    summary_parser.set_defaults(func=summary)
 
     return parser.parse_args()
 

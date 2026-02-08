@@ -12,3 +12,8 @@ class EventName(str, Enum):
 class Event:
     event: EventName
     time: datetime
+
+    @classmethod
+    def from_csv_row(cls, row: dict):
+        row["time"] = datetime.fromisoformat(row["time"])
+        return Event(**row)
