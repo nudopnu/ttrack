@@ -14,4 +14,7 @@ pip install git+https://github.com/nudopnu/ttrack.git
 ttrack start test
 ttrack stop test
 ttrack summary test
+# Total duration: 0:00:09.495379
+# Duration today: 0:00:09.495379
+
 ```
