@@ -25,6 +25,13 @@ def main():
         data_dir = args.data_dir
         name = args.name
         tracker.set_database(data_dir)
+        if name is None:
+            for entry in tracker.list_trackers():
+                msg = entry.stem
+                if args.verbose:
+                    msg += f"\t{entry.absolute()}"
+                print(msg)
+            return
         events = tracker.get_events(name)
         for event in events:
             print(f"{event.event}\t{event.time}")
@@ -54,7 +61,8 @@ def main():
     stop_parser.set_defaults(func=stop)
 
     list_parser = subparsers.add_parser("list", help="List all events of a timer")
-    list_parser.add_argument("name", help="The name of the timer")
+    list_parser.add_argument("name", nargs="?", help="The name of the timer")
+    list_parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
     list_parser.set_defaults(func=list)
 
     summary_parser = subparsers.add_parser("summary", help="Prints out a summary of given timer")

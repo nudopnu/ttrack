@@ -36,10 +36,9 @@ class Tracker:
         logger.info(f"Stopping time {name}")
         self.write_event(name, Event(EventName.STOP, datetime.now()))
     
-    def info(self, name: str):
-        file_path = self.db_location / f"{name}.csv"
-        if not file_path.exists():
-            return None
+    def list_trackers(self):
+        for entry in self.db_location.glob("*.csv"):
+            yield entry
     
     def write_event(self, name: str, event: Event):
         file_path = self.db_location / f"{name}.csv"
